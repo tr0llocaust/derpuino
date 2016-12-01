@@ -26,12 +26,12 @@ void setup(){
 }
 
 void loop(){
-  potReading = map(analogRead(0), 0, 1019, 0, 99); // Map the range of input from the pot to a percentage
-  tens = floor(potReading / 10); // Grab the tens digit
-  ones = potReading % 10; //And the ones digit
+  potReading  = map(analogRead(0), 0, 1019, 0, 99); // Map the range of input from the pot to a percentage
+  tens        = floor(potReading / 10);             // Grab the tens digit
+  ones        = potReading % 10;                    //And the ones digit
 
-  digitalWrite(latchPin, LOW);
+  digitalWrite(latchPin, LOW);                          // Instruct the register to listen for data
   shiftOut(dataPin, clockPin, MSBFIRST, numbers[ones]); // Feed the right digit from the left
   shiftOut(dataPin, clockPin, MSBFIRST, numbers[tens]); // Push it over with the left digit
-  digitalWrite(latchPin, HIGH);
+  digitalWrite(latchPin, HIGH);                         // Close the register
 }
