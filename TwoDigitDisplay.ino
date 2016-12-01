@@ -30,8 +30,8 @@ void loop(){
   tens        = floor(potReading / 10);             // Grab the tens digit
   ones        = potReading % 10;                    //And the ones digit
 
-  digitalWrite(latchPin, LOW);                          // Instruct the register to listen for data
+  digitalWrite(latchPin, LOW);                          // Instruct the register to listen for data [I think]
   shiftOut(dataPin, clockPin, MSBFIRST, numbers[ones]); // Feed the right digit from the left
   shiftOut(dataPin, clockPin, MSBFIRST, numbers[tens]); // Push it over with the left digit
-  digitalWrite(latchPin, HIGH);                         // Close the register
+  digitalWrite(latchPin, HIGH);                         // Send the data to the register
 }
