@@ -3,7 +3,10 @@ byte latchPin = 8;
 byte clockPin = 12;
 byte dataPin  = 11;
 
-//128
+byte potReading; 
+byte tens;
+byte ones;
+
 byte numbers[10]= 
   {63,  // 0
     6,  // 1
@@ -17,23 +20,18 @@ byte numbers[10]=
   103}; // 9  
 
 void setup(){
-  Serial.begin(19200);
   pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
   pinMode(dataPin, OUTPUT);
- 
 }
 
 void loop(){
-  byte potReading = map(analogRead(0), 0, 1019, 0, 99);
-
-  byte tens = floor(potReading / 10);
-  byte ones = potReading - (tens * 10);
+  potReading = map(analogRead(0), 0, 1019, 0, 99); // Map the range of input from the pot to a percentage
+  tens = floor(potReading / 10); // Grab the tens digit
+  ones = potReading % 10; //And the ones digit
 
   digitalWrite(latchPin, LOW);
-
-  shiftOut(dataPin, clockPin, MSBFIRST, numbers[ones]);
-  shiftOut(dataPin, clockPin, MSBFIRST, numbers[tens]);
-  
+  shiftOut(dataPin, clockPin, MSBFIRST, numbers[ones]); // Feed the right digit from the left
+  shiftOut(dataPin, clockPin, MSBFIRST, numbers[tens]); // Push it over with the left digit
   digitalWrite(latchPin, HIGH);
 }
